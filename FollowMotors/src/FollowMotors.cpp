@@ -75,6 +75,7 @@ class FollowMotors {
       }
     //correct right
     } else if(pins[4] == 0 || pins[5] == 0) {
+      //far right first
       if(pins[5] == 0) {
         moveMotor(-1, 1.5);
       } else if(pins[4] == 0) {
