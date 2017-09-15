@@ -83,6 +83,7 @@ class Sensors {
    String binary = String(dec, BIN); // string conversion provided by arduino
    int bin = 5; // length of pin bits
    int binaryLength = binary.length();
+   // add zeros to front if necessary
    if (binaryLength < 6) {
       int numOfZeros = 6 - binaryLength;
       for (int i = 0; i <= numOfZeros; i++) {
