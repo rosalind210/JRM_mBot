@@ -32,7 +32,7 @@ class FollowMotors {
       FollowMotors::checkComplex();
     //check lost
     } else if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 1) {
-      FollowMotors::heckLost();
+      FollowMotors::checkLost();
     }
     
     if(pins[0] == 0 && pins[1] == 0) {
