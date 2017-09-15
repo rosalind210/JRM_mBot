@@ -28,18 +28,18 @@ class FollowMotors {
   {
     //check for T, intersect, or dead end
     if(pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 0) {
-      checkComplex();
+      FollowMotors::checkComplex();
     //check lost
     } else if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 1) {
-      checkLost();
+      FollowMotors::checkLost();
     }
     
     if(pins[0] == 0 && pins[1] == 0) {
-      checkLeft();
+      FollowMotors::checkLeft();
     } else if (pins[4] == 0 && pins[5] == 0) {
-      checkRight();
+      FollowMotors::checkRight();
     } else {
-      lineCorrector();
+      FollowMotors::lineCorrector();
     }
   }
 
@@ -69,21 +69,21 @@ class FollowMotors {
     if(pins[0] == 0 || pins[1] == 0) {
       //far left first
       if(pins[0] == 0) {
-        moveMotor(-1.5, 1);
+        FollowMotors::moveMotor(-1.5, 1);
       } else if(pins[1] == 0){
-        moveMotor(-1.1, 1);
+        FollowMotors::moveMotor(-1.1, 1);
       }
     //correct right
     } else if(pins[4] == 0 || pins[5] == 0) {
       //far right first
       if(pins[5] == 0) {
-        moveMotor(-1, 1.5);
+        FollowMotors::moveMotor(-1, 1.5);
       } else if(pins[4] == 0) {
-        moveMotor(-1, 1.1);
+        FollowMotors::moveMotor(-1, 1.1);
       }
     //correct! straight!
     } else {
-      moveMotor(-1, 1);
+      FollowMotors::moveMotor(-1, 1);
   }
     
 }
