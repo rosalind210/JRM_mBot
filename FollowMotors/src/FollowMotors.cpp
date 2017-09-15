@@ -50,7 +50,8 @@ class FollowMotors {
 
   void FollowMotors::checkLost()
   {
-
+    t = 10;
+    FollowMotors::moveMotor(1, 1);
   }
 
   void FollowMotors::checkLeft()
