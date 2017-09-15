@@ -1,3 +1,8 @@
+/**
+* Header to interpret input data to follow the line
+* Author: Rosalind Ellis (github: rosalind210)
+*/
+
 #ifndef Sensors_h
 #define Sensors_h
 

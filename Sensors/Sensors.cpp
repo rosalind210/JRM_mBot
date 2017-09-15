@@ -1,8 +1,16 @@
+/**
+* Library to interpret input data to follow the line
+* Author: Rosalind Ellis (github: rosalind210)
+*/
+
 #include "MeOrion.h"
 #include "Sensors.h"
 
 class Sensors {
  
+ /**
+ * Constructor initializes serial for testing and sets value for pins
+ */
  Sensors::Sensor() 
  {
      Serial.begin(9600);
@@ -12,11 +20,17 @@ class Sensors {
      Serial.println(pinString);
  }
 
+/**
+* Getter method for array of pin information
+*/
  uint8_t Sensors::getCorrectionPins()
  {
    return correctionPins;
  }
 
+/**
+* Getter method for string of pin information
+*/
  String Sensors::getStringBin() 
  {
  	return pinString;
