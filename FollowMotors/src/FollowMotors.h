@@ -15,6 +15,7 @@ class FollowMotors
 		int motorSpeed;
 		int t;
 		void startMotors();
+		bool done;
 	private: 
 		void moveMotor(double x, double, y);
 		void checkMovement();
