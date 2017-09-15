@@ -72,7 +72,8 @@ class FollowMotors {
 
   void FollowMotors::checkLost()
   {
-
+    t = 10;
+    FollowMotors::moveMotor(1, 1);
   }
 
   void FollowMotors::checkLeft()
@@ -87,7 +88,25 @@ class FollowMotors {
 
   void FollowMotors::lineCorrector()
   {
-    
+    //correct left
+    if(pins[0] == 0 || pins[1] == 0) {
+      //far left first
+      if(pins[0] == 0) {
+        FollowMotors::moveMotor(-1.5, 1);
+      } else if(pins[1] == 0){
+        FollowMotors::moveMotor(-1.1, 1);
+      }
+    //correct right
+    } else if(pins[4] == 0 || pins[5] == 0) {
+      //far right first
+      if(pins[5] == 0) {
+        FollowMotors::moveMotor(-1, 1.5);
+      } else if(pins[4] == 0) {
+        FollowMotors::moveMotor(-1, 1.1);
+      }
+    //correct! straight!
+    } else {
+      FollowMotors::moveMotor(-1, 1);
   }
-
+    
 }
