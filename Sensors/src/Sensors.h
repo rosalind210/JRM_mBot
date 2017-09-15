@@ -11,17 +11,19 @@
 class Sensors {
 
   public:
-    uint8_t pins[6];
-    String pinString; 
+    int pins[6];
+    String pinString;
+    void getSensors();
+    Sensors();
 
   private:
     const int DataPin = 12;
-    uint8_t Sensor_Data[3];
+    int Sensor_Data[3];
     //Sensor Information
-    getValue();
-    getBin();
+    int getValue();
+    void getBin(int dec);
   
-}
+};
 #endif
 
 

@@ -6,55 +6,54 @@
 
 #include "FollowMotors.h"
 
-class FollowMotors {
-
   /**
   * Constructor starts motors
   */
-  FollowMotors::FollowMotors() {
-    MeDCMotor motor1(M1);
-    MeDCMotor motor2(M2);
-    motorSpeed = 60;
-    t = 5;
-    done = false;
-  }
+FollowMotors::FollowMotors(MeDCMotor motorA, MeDCMotor motorB) 
+{
+  motor1 = motorA;
+  motor2 = motorB;
+  motorSpeed = 60;
+  t = 5;
+  done = false;
+}
 
-  void FollowMotors::moveMotor(double x, double y) {
-    motor1.run(x * motorSpeed);
-    motor2.run(y * motorSpeed);
-    delay(t);
-  }
+void FollowMotors::moveMotor(double x, double y) {
+  motor1.run(x * motorSpeed);
+  motor2.run(y * motorSpeed);
+  delay(t);
+}
 
-  void FollowMotors::checkMovement() 
-  {
+void FollowMotors::checkMovement(int pins[6]) 
+{
     //check for T, intersect, or dead end
-    if(pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 0) {
-      FollowMotors::checkComplex();
+  if(pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 0) {
+    FollowMotors::checkComplex(pins);
     //check lost
-    } else if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 1) {
-      FollowMotors::checkLost();
-    }
-    
-    if(pins[0] == 0 && pins[1] == 0) {
-      FollowMotors::checkLeft();
-    } else if (pins[4] == 0 && pins[5] == 0) {
-      FollowMotors::checkRight();
-    } else {
-      FollowMotors::lineCorrector();
-    }
+  } else if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 1) {
+    FollowMotors::checkLost();
   }
+
+  if(pins[0] == 0 && pins[1] == 0) {
+    FollowMotors::checkLeft();
+  } else if (pins[4] == 0 && pins[5] == 0) {
+    FollowMotors::checkRight();
+  } else {
+    FollowMotors::lineCorrector(pins);
+  }
+}
 
   /**
   * Check if at T/Intersection/Done
   */
-  void FollowMotors::checkComplex()
-  {
-    FollowMotors::inch();
+void FollowMotors::checkComplex(int pins[6])
+{
+  FollowMotors::inch();
     // has reached end of maze
-    if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 0) {
-      t = 10;
-      FollowMotors::moveMotor(1, 1);
-      done = true;
+  if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 0) {
+    t = 10;
+    FollowMotors::moveMotor(1, 1);
+    done = true;
     } else { // was at an intersection (want to turn left)
       FollowMotors::checkLost();
     }
@@ -70,6 +69,9 @@ class FollowMotors {
     t = 5;
   }
 
+  /**
+  * Turns left until it finds line or it stops
+  */
   void FollowMotors::checkLost()
   {
     t = 10;
@@ -77,6 +79,9 @@ class FollowMotors {
     t = 5;
   }
 
+  /**
+  * Handles turning left
+  */
   void FollowMotors::checkLeft()
   {
     t = 50;
@@ -85,6 +90,9 @@ class FollowMotors {
     FollowMotors::inch();
   }
 
+  /**
+  * Handles turning right
+  */
   void FollowMotors::checkRight()
   {
     t = 50;
@@ -93,7 +101,10 @@ class FollowMotors {
     FollowMotors::inch();
   }
 
-  void FollowMotors::lineCorrector()
+  /**
+  * Handles going straight or getting back on the line
+  */
+  void FollowMotors::lineCorrector(int pins[6])
   {
     //correct left
     if(pins[0] == 0 || pins[1] == 0) {
@@ -114,6 +125,5 @@ class FollowMotors {
     //correct! straight!
     } else {
       FollowMotors::moveMotor(-1, 1);
+    }
   }
-    
-}
