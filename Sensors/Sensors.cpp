@@ -9,6 +9,7 @@ class Sensors {
      delay(100);
      Serial.println("Start.....");
      getBin(getValue);
+     Serial.println(pinString);
  }
 
  uint8_t Sensors::getCorrectionPins()
