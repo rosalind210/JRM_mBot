@@ -79,7 +79,10 @@ class FollowMotors {
 
   void FollowMotors::checkLeft()
   {
-
+    t = 50;
+    FollowMotors::moveMotor(1, 1);
+    t = 5;
+    FollowMotors::inch();
   }
 
   void FollowMotors::checkRight()
