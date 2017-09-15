@@ -9,7 +9,7 @@
 class FollowMotors {
 
   /**
-  * Constructor sets variables
+  * Constructor starts motors
   */
   FollowMotors::FollowMotors() {
     MeDCMotor motor1(M1);
@@ -19,18 +19,12 @@ class FollowMotors {
     done = false;
   }
 
-  /**
-  * Handles all motor movement (allows increasing or decreasing through scalars x,y)
-  */
   void FollowMotors::moveMotor(double x, double y) {
     motor1.run(x * motorSpeed);
     motor2.run(y * motorSpeed);
     delay(t);
   }
 
-  /**
-  * Handles checking sensors for directions
-  */
   void FollowMotors::checkMovement() 
   {
     //check for T, intersect, or dead end
@@ -62,7 +56,7 @@ class FollowMotors {
       FollowMotors::moveMotor(1, 1);
       done = true;
     } else { // was at an intersection (want to turn left)
-      FollowMotors::checkLeft();
+      FollowMotors::checkLost();
     }
   }
 
@@ -76,34 +70,23 @@ class FollowMotors {
     t = 5;
   }
 
-  /**
-  * Turns left until it line or it never does
-  */
   void FollowMotors::checkLost()
   {
     t = 10;
     FollowMotors::moveMotor(1, 1);
+    t = 5;
   }
 
-  /**
-  * Handles turning left
-  */
   void FollowMotors::checkLeft()
   {
 
   }
 
-  /**
-  * Handles turning right
-  */
   void FollowMotors::checkRight()
   {
 
   }
 
-  /**
-  * Handles going straight or getting back on the line
-  */
   void FollowMotors::lineCorrector()
   {
     //correct left
