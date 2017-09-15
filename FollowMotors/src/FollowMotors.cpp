@@ -43,5 +43,29 @@ class FollowMotors {
     }
   }
 
+    void FollowMotors::checkComplex()
+  {
+
+  }
+
+  void FollowMotors::checkLost()
+  {
+
+  }
+
+  void FollowMotors::checkLeft()
+  {
+
+  }
+
+  void FollowMotors::checkRight()
+  {
+
+  }
+
+  void FollowMotors::lineCorrector()
+  {
+    
+  }
 
 }
