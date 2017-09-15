@@ -3,7 +3,6 @@
 * Author: Rosalind Ellis (github: rosalind210)
 */
 
-#include "MeOrion.h"
 #include "Sensors.h"
 
 class Sensors {
