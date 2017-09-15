@@ -65,7 +65,24 @@ class FollowMotors {
 
   void FollowMotors::lineCorrector()
   {
-    
+    //correct left
+    if(pins[0] == 0 || pins[1] == 0) {
+      //far left first
+      if(pins[0] == 0) {
+        moveMotor(-1.5, 1);
+      } else if(pins[1] == 0){
+        moveMotor(-1.1, 1);
+      }
+    //correct right
+    } else if(pins[4] == 0 || pins[5] == 0) {
+      if(pins[5] == 0) {
+        moveMotor(-1, 1.5);
+      } else if(pins[4] == 0) {
+        moveMotor(-1, 1.1);
+      }
+    //correct! straight!
+    } else {
+      moveMotor(-1, 1);
   }
-
+    
 }
