@@ -11,15 +11,13 @@
 class Sensors {
 
   public:
-    uint8_t[] getCorrectionInfo();
-    String getStringBin();
+    uint8_t pins[6];
+    String pinString; 
 
   private:
     const int DataPin = 12;
     uint8_t Sensor_Data[3];
     //Sensor Information
-    uint8_t correctionPins[6];
-    String pinString; 
     getValue();
     getBin();
   

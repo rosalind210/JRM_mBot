@@ -19,22 +19,6 @@ class Sensors {
      Serial.println(pinString);
  }
 
-/**
-* Getter method for array of pin information
-*/
- uint8_t Sensors::getCorrectionPins()
- {
-   return correctionPins;
- }
-
-/**
-* Getter method for string of pin information
-*/
- String Sensors::getStringBin() 
- {
- 	return pinString;
- }
-
  /**
   * Provided by Jonathan Maeda, gets the decimal value from the sensors
   */
@@ -92,7 +76,7 @@ class Sensors {
     pinString = binary;
    // put into array
    while (bin > -1) {
-     correctionPins[bin] = binary.charAt(binaryLength - 1) - 48;
+     pins[bin] = binary.charAt(binaryLength - 1) - 48;
      binaryLength--;
      bin--;
    }
