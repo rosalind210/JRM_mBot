@@ -18,7 +18,7 @@ class FollowMotors {
     t = 5;
   }
 
-  void moveMotor(double x, double y) {
+  void FollowMotors::moveMotor(double x, double y) {
     motor1.run(x * motorSpeed);
     motor2.run(y * motorSpeed);
     delay(t);
@@ -42,4 +42,6 @@ class FollowMotors {
       lineCorrector();
     }
   }
+
+
 }
