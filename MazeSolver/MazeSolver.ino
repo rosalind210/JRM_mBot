@@ -194,14 +194,13 @@ void checkLeft()
 void checkRight()
 {
   Serial.println("IN RIGHT");
-  delay(10000);
-//  t=1000;
-//  inch();
-//  stopMotor();
-//  delay(1000);
-//  t = 50;
-//  moveMotor(-2, -2);
-//  t = 1;
+  t=1000;
+  inch();
+  stopMotor();
+  delay(1000);
+  t = 50;
+  moveMotor(-2, -2);
+  t = 1;
 }
 
 /**
