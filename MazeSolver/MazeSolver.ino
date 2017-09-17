@@ -1,19 +1,23 @@
 
 #include "MeOrion.h"
 
+// MOTOR STUFF
 MeDCMotor motor1(M1);
 MeDCMotor motor2(M2);
 int motorSpeed;
-int t=5;
-void startMotors();
+int t;
 bool done;
+
+// SENSOR STUFF
 int pins[6];
 uint8_t Sensor_Data[3];
 const int DataPin = 12;
 
 void setup() 
 {
-  
+  motorSpeed = 60;
+  t = 5;
+  done = false;
 }
 
 void loop()
@@ -25,9 +29,13 @@ void loop()
   delay(20);
 }
 
- /**
-* Provided by Jonathan Maeda, gets the decimal value from the sensors
-*/
+/**
+ * SENSOR METHODS
+ */
+ 
+/**
+ * Provided by Jonathan Maeda, gets the decimal value from the sensors
+ */
 int getValue()
 {  
   long time_out_flag = 0;
@@ -84,8 +92,12 @@ void getBin(int dec) {
     binaryLength--;
     bin--;
   }
+ }
 }
 
+/**
+ * MOTOR METHODS
+ */
 void moveMotor(double x, double y) 
 {
   motor1.run(x * motorSpeed);
