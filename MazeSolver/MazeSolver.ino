@@ -9,20 +9,28 @@ int t;
 bool done;
 
 // SENSOR STUFF
-int pins[6];
+uint8_t pins[6];
 uint8_t Sensor_Data[3];
 const int DataPin = 12;
 
 void setup() 
 {
+  Serial.begin(9600);
   motorSpeed = 60;
   t = 5;
   done = false;
+  delay(5000);
 }
 
 void loop()
 {
   getBin(getValue());
+  Serial.print(pins[0]);
+  Serial.print(pins[1]);
+  Serial.print(pins[2]);
+  Serial.print(pins[3]);
+  Serial.print(pins[4]);
+  Serial.println(pins[5]);
   if (!done) {
     checkMovement();
   }
@@ -36,7 +44,7 @@ void loop()
 /**
  * Provided by Jonathan Maeda, gets the decimal value from the sensors
  */
-int getValue()
+uint8_t getValue()
 {  
   long time_out_flag = 0;
   pinMode(DataPin, OUTPUT);
@@ -76,23 +84,19 @@ int getValue()
 /**
 * Converts decimal from getValue to a binary array
 */
-void getBin(int dec) {
-  String binary = String(dec, BIN); // string conversion provided by arduino
+void getBin(uint8_t dec) {
+  String binary = String(dec, BIN);
   int bin = 5; // length of pin bits
   int binaryLength = binary.length();
-  // add zeros to front if necessary
-  if (binaryLength < 6) {
-  int numOfZeros = 6 - binaryLength;
-  for (int i = 0; i <= numOfZeros; i++) {
-    binary = "0" + binary;
-  }
-  // put into array
   while (bin > -1) {
-    pins[bin] = binary.charAt(binaryLength - 1) - 48;
-    binaryLength--;
+    if (binaryLength > 0) {
+      pins[bin] = binary.charAt(binaryLength - 1) - 48;
+      binaryLength--;
+    } else {
+      pins[bin] = 0;
+    }
     bin--;
   }
- }
 }
 
 /**
@@ -109,7 +113,7 @@ void checkMovement()
 {
   //check for T, intersect, or dead end
   if(pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 0) {
-    checkComplex(pins);
+    checkComplex();
   //check lost
   } else if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 1) {
     checkLost();
@@ -127,7 +131,7 @@ void checkMovement()
 /**
 * Check if at T/Intersection/Done
 */
-void checkComplex(int pins[6])
+void checkComplex()
 {
   inch();
   // has reached end of maze
