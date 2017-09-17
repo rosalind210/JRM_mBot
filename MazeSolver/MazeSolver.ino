@@ -16,7 +16,7 @@ const int DataPin = 12;
 void setup() 
 {
   Serial.begin(9600);
-  motorSpeed = 60;
+  motorSpeed = 100;
   t = 5;
   done = false;
   delay(5000);
@@ -25,16 +25,22 @@ void setup()
 void loop()
 {
   getBin(getValue());
+  if (!done) {
+    checkMovement();
+  } else {
+    motor1.stop();
+    motor2.stop();
+  }
+  delay(20);
+}
+
+void printPins() {
   Serial.print(pins[0]);
   Serial.print(pins[1]);
   Serial.print(pins[2]);
   Serial.print(pins[3]);
   Serial.print(pins[4]);
   Serial.println(pins[5]);
-  if (!done) {
-    checkMovement();
-  }
-  delay(20);
 }
 
 /**
@@ -133,12 +139,14 @@ void checkMovement()
 */
 void checkComplex()
 {
+  Serial.println("WHAT IS THIS???");
   inch();
   // has reached end of maze
   if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 0) {
     t = 10;
     moveMotor(1, 1);
     done = true;
+    Serial.println(done);
    } else { // was at an intersection (want to turn left)
       checkLost();
    }
@@ -150,7 +158,7 @@ void checkComplex()
 void inch()
 {
   t = 2;
-  moveMotor(.75, -.75);
+  moveMotor(-.75, .75);
   t = 5;
 }
 
@@ -159,6 +167,7 @@ void inch()
 */
 void checkLost()
 {
+  Serial.println("HELP ME IM LOST");
   t = 10;
   moveMotor(1, 1);
   t = 5;
@@ -193,6 +202,7 @@ void lineCorrector()
 {
   //correct left
   if(pins[0] == 0 || pins[1] == 0) {
+    Serial.println("TURN LEFT");
     //far left first
     if(pins[0] == 0) {
       moveMotor(-1.5, 1);
@@ -201,6 +211,7 @@ void lineCorrector()
     }
   //correct right
   } else if(pins[4] == 0 || pins[5] == 0) {
+    Serial.println("TURN IT TO THE RIGHT");
     //far right first
     if(pins[5] == 0) {
       moveMotor(-1, 1.5);
@@ -209,6 +220,8 @@ void lineCorrector()
     }
   //correct! straight!
   } else {
+    Serial.println("MOVE THAT SHIT FORWARD");
+    printPins();
     moveMotor(-1, 1);
   }
 }
