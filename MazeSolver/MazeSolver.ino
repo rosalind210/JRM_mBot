@@ -95,10 +95,10 @@ void checkMovement()
   //check lost
   } else if (pins[0] == 1 && pins[1] == 1 && pins[2] == 1 && pins[3] == 1 && pins[4] == 1 && pins[5] == 1) {
     checkLost();
-  } else if(pins[0] == 0 && pins[1] == 0) {
+  } else if(pins[0] == 0 && pins[1] == 0 && pins[2] == 0) {
     stopMotor(1000);
     checkLeft();
-  } else if (pins[4] == 0 && pins[5] == 0) {
+  } else if (pins[3] == 0 && pins[4] == 0 && pins[5] == 0) {
     stopMotor(1000);
     checkRight();
   } else {
@@ -127,7 +127,7 @@ void checkComplex()
 */
 void checkLost()
 {
-  t = 10000;
+  t = 30;
   moveMotor(1, 1);
   t = 5;
 }
