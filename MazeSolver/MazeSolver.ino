@@ -111,14 +111,14 @@ void checkMovement()
 */
 void checkComplex()
 {
-  inch(500);
+  inch(1000);
   getBinArray(lineArray.getBINValue());
   // has reached end of maze
   if (pins[0] == 0 && pins[1] == 0 && pins[2] == 0 && pins[3] == 0 && pins[4] == 0 && pins[5] == 0) {
     Serial.println("DOOOONE");
     done = true;
    } else { // was at an intersection (want to turn left)
-      checkLost();
+      checkMovement();
    }
 }
 
@@ -127,7 +127,7 @@ void checkComplex()
 */
 void checkLost()
 {
-  t = 10;
+  t = 10000;
   moveMotor(1, 1);
   t = 5;
 }
@@ -164,9 +164,8 @@ void lineCorrector()
   if(pins[0] == 0 || pins[1] == 0) {
     //far left first
     if(pins[0] == 0) {
-      stopMotor(1000);
       t=5;
-      moveMotor(-1, 1);
+      moveMotor(-1.5, 1);
       t=1;
     } else if(pins[1] == 0){
       moveMotor(-1.1, 1);
@@ -175,7 +174,6 @@ void lineCorrector()
   } else if(pins[4] == 0 || pins[5] == 0) {
     //far right first
     if(pins[5] == 0) {
-      stopMotor(1000);
       t=5;
       moveMotor(-1, 1.5);
       t=1;
