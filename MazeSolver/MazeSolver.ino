@@ -9,8 +9,11 @@ MeDCMotor motor2(M2);
 int motorSpeed;
 int t;
 bool done;
+
+// ROBOT STUFF
 int delaySpeedInchMme = 500; // currently both bender and Mme
 int delaySpeedTurnMme = 500;
+bool bender;
 
 // SENSOR STUFF
 LineArray lineArray;
@@ -19,6 +22,7 @@ const int DataPin = 12;
 
 void setup() 
 {
+  bender = true;
   lineArray.setPort(DataPin);
   motorSpeed = 60;
   t = 1;
@@ -111,7 +115,12 @@ void checkMovement()
 */
 void checkComplex()
 {
-  inch(delaySpeedInchMme);
+  if (bender) {
+    inch(delaySpeedInchBender);
+  } else {
+    inch(delaySpeedInchMme);
+  }
+  
   getBinArray(lineArray.getBINValue());
   // has reached end of maze
   if (pins[0] == 0 && pins[1] == 0 && pins[2] == 0 && pins[3] == 0 && pins[4] == 0 && pins[5] == 0) {
@@ -137,7 +146,11 @@ void checkLost()
       stopMotor(1000);
       foundLine = true;
     }
-    moveMotor(lostSpeedMme, lostSpeedMme);
+    if (bender) {
+      moveMotor(lostSpeedBender, lostSpeedBender);
+    } else {
+      moveMotor(lostSpeedMme, lostSpeedMme);
+    }
   }
   t = 1;
   lineCorrector();
@@ -151,9 +164,15 @@ double turnSpeedBender = 1.1;
 */
 void checkLeft()
 {
-  inch(delaySpeedInchMme);
-  t = delaySpeedTurnMme;
-  moveMotor(turnSpeedMme, turnSpeedMme);
+  if (bender) {
+    inch(delaySpeedInchBender);
+    t = delaySpeedTurnBender;
+    moveMotor(turnSpeedBender, turnSpeedBender);
+  } else {
+    inch(delaySpeedInchMme);
+    t = delaySpeedTurnMme;
+    moveMotor(turnSpeedMme, turnSpeedMme);
+  }
   t = 1;
 }
 
@@ -162,14 +181,23 @@ void checkLeft()
 */
 void checkRight()
 {
-  inch(delaySpeedInchMme);
+  if (bender) {
+    inch(delaySpeedInchBender);
+  } else {
+    inch(delaySpeedInchMme);
+  }
   stopMotor(50);
   getBinArray(lineArray.getBINValue());
   if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 0) { // preference straight
     checkMovement();
   } else { // true right
-    t = delaySpeedTurnMme;
-    moveMotor(-turnSpeedMme, -turnSpeedMme);
+    if (bender) {
+      t = delaySpeedTurnBender;
+      moveMotor(-turnSpeedBender, -turnSpeedBender);
+    } else {
+      t = delaySpeedTurnMme;
+      moveMotor(-turnSpeedMme, -turnSpeedMme);
+    }
     t = 1;
   } 
 }
@@ -190,7 +218,11 @@ void lineCorrector()
       moveMotor(-1, 1.5);
       t=1;
     } else if(pins[1] == 0){
-      moveMotor(-1, turnSpeedSlowMme);
+      if (bender) {
+        moveMotor(-1, turnSpeedSlowBender);
+      } else {
+        moveMotor(-1, turnSpeedSlowMme);
+      }
     }
   //correct right
   } else if(pins[4] == 0 || pins[5] == 0) {
@@ -200,7 +232,11 @@ void lineCorrector()
       moveMotor(-1.5, 1);
       t=1;
     } else if(pins[4] == 0) {
-      moveMotor(-turnSpeedSlowMme, 1);
+      if (bender) {
+        moveMotor(-1, turnSpeedSlowBender);
+      } else {
+        moveMotor(-1, turnSpeedSlowMme);
+      }
     }
   //correct! straight!
   } else {
