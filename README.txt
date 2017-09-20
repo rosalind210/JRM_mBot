@@ -1,4 +1,7 @@
-Team JRM
+Team JRM:
+Jonas Tjahjadi (JonarJr)
+Rosalind Ellis (rosalind210)
+Melanie Kaplan-Cohen (melaniekc)
 
 Line-Following Maze Summary Report
 
