@@ -10,10 +10,16 @@ int motorSpeed;
 int t;
 bool done;
 
-// ROBOT STUFF
+// ROBOT STUFF - to deal with hardware differences between robots
 int delaySpeedInchMme = 500; // currently both bender and Mme
 int delaySpeedTurnMme = 500;
-bool bender;
+double lostSpeedMme = 1;
+double lostSpeedBender = 1;
+double turnSpeedMme = 1.4;
+double turnSpeedBender = 1.1;
+double turnSpeedSlowMme = 1.2;
+double turnSpeedSlowBender = 1.1;
+bool bender; // Bender is Jonas' robot
 
 // SENSOR STUFF
 LineArray lineArray;
@@ -22,7 +28,7 @@ const int DataPin = 12;
 
 void setup() 
 {
-  bender = true;
+  bender = true; // choose robot
   lineArray.setPort(DataPin);
   motorSpeed = 60;
   t = 1;
@@ -42,6 +48,9 @@ void loop()
   }
 }
 
+/**
+* Print pins for debugging
+*/
 void printPins() {
   Serial.print(pins[0]);
   Serial.print(pins[1]);
@@ -67,6 +76,10 @@ void getBinArray(String stringBin) {
 /**
  * MOTOR METHODS
  */
+
+/**
+* Move motors for time t, affected by scalars
+*/
 void moveMotor(double x, double y) 
 {
   motor1.run(x * motorSpeed);
@@ -74,6 +87,9 @@ void moveMotor(double x, double y)
   delay(t);
 }
 
+/**
+* Stop motors for time d
+*/
 void stopMotor(int d) {
   motor1.stop();
   motor2.stop();
@@ -90,6 +106,9 @@ void inch(int d)
   stopMotor(1000);
 }
 
+/**
+* Check line to choose direction
+*/
 void checkMovement() 
 {
   //check for T, intersect, or dead end
@@ -130,9 +149,6 @@ void checkComplex()
    }
 }
 
-double lostSpeedMme = 1;
-double lostSpeedBender = 1;
-
 /**
 * Turns left until it finds line or it stops
 */
@@ -146,7 +162,7 @@ void checkLost()
       stopMotor(1000);
       foundLine = true;
     }
-    if (bender) {
+    if (bender) { // bender variable check
       moveMotor(lostSpeedBender, lostSpeedBender);
     } else {
       moveMotor(lostSpeedMme, lostSpeedMme);
@@ -156,15 +172,12 @@ void checkLost()
   lineCorrector();
 }
 
-double turnSpeedMme = 1.4;
-double turnSpeedBender = 1.1;
-
 /**
 * Handles turning left
 */
 void checkLeft()
 {
-  if (bender) {
+  if (bender) { // bender variable check
     inch(delaySpeedInchBender);
     t = delaySpeedTurnBender;
     moveMotor(turnSpeedBender, turnSpeedBender);
@@ -181,7 +194,7 @@ void checkLeft()
 */
 void checkRight()
 {
-  if (bender) {
+  if (bender) { // bender variable check
     inch(delaySpeedInchBender);
   } else {
     inch(delaySpeedInchMme);
@@ -191,7 +204,7 @@ void checkRight()
   if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 0) { // preference straight
     checkMovement();
   } else { // true right
-    if (bender) {
+    if (bender) { // bender variable check
       t = delaySpeedTurnBender;
       moveMotor(-turnSpeedBender, -turnSpeedBender);
     } else {
@@ -201,9 +214,6 @@ void checkRight()
     t = 1;
   } 
 }
-
-double turnSpeedSlowMme = 1.2;
-double turnSpeedSlowBender = 1.1;
 
 /**
 * Handles going straight or getting back on the line
@@ -218,7 +228,7 @@ void lineCorrector()
       moveMotor(-1, 1.5);
       t=1;
     } else if(pins[1] == 0){
-      if (bender) {
+      if (bender) { // bender variable check
         moveMotor(-1, turnSpeedSlowBender);
       } else {
         moveMotor(-1, turnSpeedSlowMme);
@@ -232,7 +242,7 @@ void lineCorrector()
       moveMotor(-1.5, 1);
       t=1;
     } else if(pins[4] == 0) {
-      if (bender) {
+      if (bender) { // bender variable check
         moveMotor(-1, turnSpeedSlowBender);
       } else {
         moveMotor(-1, turnSpeedSlowMme);
