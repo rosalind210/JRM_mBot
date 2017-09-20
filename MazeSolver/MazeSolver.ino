@@ -22,7 +22,9 @@ bool done;
 
 // ROBOT STUFF - to deal with hardware differences between robots
 int delaySpeedInchMme = 500; // currently both bender and Mme
+int delaySpeedInchBender = 500;
 int delaySpeedTurnMme = 500;
+int delaySpeedTurnBender = 500;
 double lostSpeedMme = 1;
 double lostSpeedBender = 1;
 double turnSpeedMme = 1.4;
