@@ -1,3 +1,13 @@
+/**
+*
+* Arduino file that uses 6 sensor to find a line and follow it until the end of the maze
+* Algorithm follows always left turn algorithm
+* 
+* @authors  Rosalind Ellis (rnellis@brandeis.edu)
+*           Jonas Tjahjadi (jtjahjad15@brandeis.edu)
+*           Melanie Kaplan-Cohen (melaniek@brandeis.edu)
+*/
+
 
 #include "MeOrion.h"
 #include "LineArray.h"
