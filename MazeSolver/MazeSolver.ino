@@ -9,6 +9,8 @@ MeDCMotor motor2(M2);
 int motorSpeed;
 int t;
 bool done;
+int delaySpeedInchMme = 500; // currently both bender and Mme
+int delaySpeedTurnMme = 500;
 
 // SENSOR STUFF
 LineArray lineArray;
@@ -17,13 +19,11 @@ const int DataPin = 12;
 
 void setup() 
 {
-  Serial.begin(9600);
   lineArray.setPort(DataPin);
   motorSpeed = 60;
   t = 1;
   done = false;
   delay(5000);
-  Serial.println("Starting...");
 }
 
 void loop()
@@ -111,35 +111,49 @@ void checkMovement()
 */
 void checkComplex()
 {
-  inch(1000);
+  inch(delaySpeedInchMme);
   getBinArray(lineArray.getBINValue());
   // has reached end of maze
   if (pins[0] == 0 && pins[1] == 0 && pins[2] == 0 && pins[3] == 0 && pins[4] == 0 && pins[5] == 0) {
-    Serial.println("DOOOONE");
     done = true;
    } else { // was at an intersection (want to turn left)
-      checkMovement();
+      checkLeft();
    }
 }
+
+double lostSpeedMme = 1;
+double lostSpeedBender = 1;
 
 /**
 * Turns left until it finds line or it stops
 */
 void checkLost()
 {
-  t = 30;
-  moveMotor(1, 1);
-  t = 5;
+  bool foundLine = false;
+  t = 1;
+  while (!foundLine) {
+    getBinArray(lineArray.getBINValue());
+    if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 0) {
+      stopMotor(1000);
+      foundLine = true;
+    }
+    moveMotor(lostSpeedMme, lostSpeedMme);
+  }
+  t = 1;
+  lineCorrector();
 }
+
+double turnSpeedMme = 1.4;
+double turnSpeedBender = 1.1;
 
 /**
 * Handles turning left
 */
 void checkLeft()
 {
-  inch(500);
-  t = 900;
-  moveMotor(1.1, 1.1);
+  inch(delaySpeedInchMme);
+  t = delaySpeedTurnMme;
+  moveMotor(turnSpeedMme, turnSpeedMme);
   t = 1;
 }
 
@@ -148,12 +162,20 @@ void checkLeft()
 */
 void checkRight()
 {
-  Serial.println("IN RIGHT");
-  inch(500);
-  t = 1000;
-  moveMotor(-1.1, -1.1);
-  t = 1;
+  inch(delaySpeedInchMme);
+  stopMotor(50);
+  getBinArray(lineArray.getBINValue());
+  if (pins[0], pins[1], pins[2], pins[3], pins[4], pins[5] == 0) { // preference straight
+    checkMovement();
+  } else { // true right
+    t = delaySpeedTurnMme;
+    moveMotor(-turnSpeedMme, -turnSpeedMme);
+    t = 1;
+  } 
 }
+
+double turnSpeedSlowMme = 1.2;
+double turnSpeedSlowBender = 1.1;
 
 /**
 * Handles going straight or getting back on the line
@@ -164,21 +186,21 @@ void lineCorrector()
   if(pins[0] == 0 || pins[1] == 0) {
     //far left first
     if(pins[0] == 0) {
-      t=5;
-      moveMotor(-1.5, 1);
+      t=3;
+      moveMotor(-1, 1.5);
       t=1;
     } else if(pins[1] == 0){
-      moveMotor(-1.1, 1);
+      moveMotor(-1, turnSpeedSlowMme);
     }
   //correct right
   } else if(pins[4] == 0 || pins[5] == 0) {
     //far right first
     if(pins[5] == 0) {
-      t=5;
-      moveMotor(-1, 1.5);
+      t=3;
+      moveMotor(-1.5, 1);
       t=1;
     } else if(pins[4] == 0) {
-      moveMotor(-1, 1.1);
+      moveMotor(-turnSpeedSlowMme, 1);
     }
   //correct! straight!
   } else {
